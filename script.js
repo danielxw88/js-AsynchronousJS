@@ -74,10 +74,58 @@ function fetchParallel() {
         });
 }
 
+// Fuction to fetch data sequentially
+async function fetchSequential2() {
+    console.log("Fetching data sequentially...");
+
+    try {
+        
+        const userProfile = await fetchUserProfiles();
+        console.log("User Profile:", userProfile);
+
+        
+        const posts = await fetchPosts();
+        console.log("Posts:", posts);
+
+        
+        const comments = await fetchComments();
+        console.log("Comments:", comments);
+
+        console.log("Sequential data fetching complete.");
+    } catch (error) {
+        console.error("Error in sequential data fetching:", error);
+    }
+}
+
+// Fuction to fetch data parallelly
+async function fetchParallel2() {
+    console.log("Fetching data parallelly...");
+
+    try {
+        
+        const [userProfile, posts, comments] = await Promise.all([
+            fetchUserProfiles(),
+            fetchPosts(),
+            fetchComments()
+        ]);
+
+        console.log("User Profile:", userProfile);
+        console.log("Posts:", posts);
+        console.log("Comments:", comments);
+
+        console.log("Parallel data fetching complete.");
+    } catch (error) {
+        console.error("Error in parallel data fetching:", error);
+    }
+}
+
+
 
 
 fetchSequential();
 
 fetchParallel();
 
+fetchSequential2();
 
+fetchParallel2();
