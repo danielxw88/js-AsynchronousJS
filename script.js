@@ -1,58 +1,42 @@
 
 
-// Helper function to create a delay
-function delay(ms) {
-    return new Promise((resolve, reject) => {
-        
-        var myTest = 1;
-        let success = (myTest > 0);
-        if (success) {
-
-            
-            setTimeout(resolve, ms);
-            console.log("Successfully fetching data");
-        } else {
-            reject("Data fetching failed.");
-        }
-        
-    }
-    )
-}
 
 
 // Function to fetch user profiles
 function fetchUserProfiles() {
 
-    return delay(1000).then(() => [
-        { id: 1, name: "Alice", account: "alc27" },
-        { id: 2, name: "Bob", account: "luckydog" },
-        { id: 3, name: "Charlie", account: "good@@" }
-    ]);
+    return new Promise(resolve => setTimeout(() => {
+        console.log("Fetching user profiles...");
+        resolve({ id: 1, name: "Alice", account: "alc27" });
+    }, 1000));
+
 }
 
 // Function to fetch posts
 function fetchPosts() {
-    
-    return delay(1000).then(() => [
-        { id: 1, title: "Weather", content: "Weather is good!" },
-        { id: 2, title: "Friend", content: "I make a new friend!" }
-    ]);
+
+    return new Promise(resolve => setTimeout(() => {
+        console.log("Fetching Posts...");
+        resolve({ id: 1, title: "Weather", content: "Weather is good!" });
+    }, 1000));
+
 }
 
 // Function to fetch comments
 function fetchComments() {
-    
-    return delay(1000).then(() => [
-        { id: 1, comment: "Great post!" },
-        { id: 2, comment: "Thanks for sharing." },
-        { id: 3, comment: "Interesting read!" }
-    ]);
+
+    return new Promise(resolve => setTimeout(() => {
+        console.log("Fetching Comments...");
+        resolve({ id: 1, comment: "Great post!" });
+    }, 1000));
+
 }
 
 
 
-function fetchData() {
-    console.log("Fetching data...");
+// Fuction to fetch data sequentially
+function fetchSequential() {
+    console.log("Fetching data sequentially...");
 
     fetchUserProfiles()
         .then(profiles => {
@@ -65,14 +49,35 @@ function fetchData() {
         })
         .then(comments => {
             console.log("Comments:", comments);
-            console.log("Data fetching complete.");
+            console.log("Sequantial Data fetching complete.");
         })
         .catch(error => {
-            console.error("Error fetching data:", error);
+            console.error("Error in sequantial fetching data:", error);
         });
 }
 
-fetchData();
 
+
+// Fuction to fetch data parallelly
+function fetchParallel() {
+    console.log("Fetching data parallelly...");
+
+    Promise.all([fetchUserProfiles(), fetchPosts(), fetchComments()])
+        .then(([userProfile, posts, comments]) => {
+            console.log("User Profile:", userProfile);
+            console.log("Posts:", posts);
+            console.log("Comments:", comments);
+            console.log("Parallel data fetching complete.");
+        })
+        .catch(error => {
+            console.error("Error in parallel data fetching:", error);
+        });
+}
+
+
+
+fetchSequential();
+
+fetchParallel();
 
 
